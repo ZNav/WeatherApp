@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <div class="inner-container">
-      <h1 style="margin-top: 20px;">{{ city }}</h1>
-      <h2>{{ temperature }}<span>&#176;</span></h2>
+      <h1 style="margin-top: 20px">{{ city }}</h1>
+      <h2>{{ temperature }}<span>&#176;</span>{{ type }}</h2>
       <p>{{ weatherDescription }}</p>
       <div v-if="showClearDay" class="weather-condition">
         <img src="../assets/01d.png" alt="" />
@@ -58,7 +58,10 @@
           v-model="longitude"
         />
       </div>
-      <button style="margin: 10px" @click="GetWeatherData()">Get Data</button>
+      <button style="margin: 5px" @click="GetWeatherData()">Get Data</button>
+    </div>
+    <div>
+      <button style="margin: 5px" @click="ConvertTemp()">Convert to Celsius</button>
     </div>
   </div>
 </template>
@@ -86,9 +89,18 @@ export default {
       city: "",
       latitude: "28.14618",
       longitude: "-82.7568",
+      type: 'F',
     };
   },
   methods: {
+
+    ConvertTemp() {
+      this.temperature = this.temperature-32;
+      this.temperature = this.temperature*.5556;
+      this.temperature = Math.round(this.temperature * 100) / 100;
+      this.type = 'C'
+    },
+
     GetWeatherData() {
       this.showClearDay = false;
       this.showClearNight = false;
@@ -102,6 +114,7 @@ export default {
       this.showSnow = false;
       this.showThunderstorm = false;
       this.showShowerRain = false;
+      this.type = 'F',
       axios
         .get(
           "https://api.openweathermap.org/data/2.5/weather?lat=" +
