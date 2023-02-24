@@ -61,7 +61,9 @@
       <button style="margin: 5px" @click="GetWeatherData()">Get Data</button>
     </div>
     <div>
-      <button style="margin: 5px" @click="ConvertTemp()">Convert to Celsius</button>
+      <button style="margin: 5px" @click="ConvertTemp()">
+        Convert to {{ typeWord }}
+      </button>
     </div>
   </div>
 </template>
@@ -89,16 +91,26 @@ export default {
       city: "",
       latitude: "28.14618",
       longitude: "-82.7568",
-      type: 'F',
+      type: "F",
+      typeWord: "Celsius",
     };
   },
   methods: {
-
     ConvertTemp() {
-      this.temperature = this.temperature-32;
-      this.temperature = this.temperature*.5556;
-      this.temperature = Math.round(this.temperature * 100) / 100;
-      this.type = 'C'
+      if (this.type == "F") {
+        this.temperature = this.temperature - 32;
+        this.temperature = this.temperature * 0.5556;
+        this.temperature = Math.round(this.temperature * 100) / 100;
+        this.type = "C";
+        this.typeWord = "Fahrenheit";
+      } 
+      else {
+        this.temperature = this.temperature * 1.8;
+        this.temperature = this.temperature + 32;
+        this.temperature = Math.round(this.temperature * 100) / 100;
+        this.type = "F";
+        this.typeWord = "Celsius";
+      }
     },
 
     GetWeatherData() {
@@ -114,64 +126,64 @@ export default {
       this.showSnow = false;
       this.showThunderstorm = false;
       this.showShowerRain = false;
-      this.type = 'F',
-      axios
-        .get(
-          "https://api.openweathermap.org/data/2.5/weather?lat=" +
-            this.latitude +
-            "&lon=" +
-            this.longitude +
-            "&units=imperial&appid=ac8f0d63249133e154516ba4383ddf7c"
-        )
-        .then((response) => {
-          this.city = response.data.name;
-          let icon = response.data.weather[0].icon;
-          let descriptionString = response.data.weather[0].description;
-          this.weatherDescription =
-            descriptionString.charAt(0).toUpperCase() +
-            descriptionString.slice(1);
-          this.temperature = response.data.main.temp;
+      (this.type = "F"),
+        axios
+          .get(
+            "https://api.openweathermap.org/data/2.5/weather?lat=" +
+              this.latitude +
+              "&lon=" +
+              this.longitude +
+              "&units=imperial&appid=ac8f0d63249133e154516ba4383ddf7c"
+          )
+          .then((response) => {
+            this.city = response.data.name;
+            let icon = response.data.weather[0].icon;
+            let descriptionString = response.data.weather[0].description;
+            this.weatherDescription =
+              descriptionString.charAt(0).toUpperCase() +
+              descriptionString.slice(1);
+            this.temperature = response.data.main.temp;
 
-          if (icon == "01d") {
-            this.showClearDay = true;
-          }
-          if (icon == "01n") {
-            this.showClearNight = true;
-          }
-          if (icon == "02d") {
-            this.showFewCloudsDay = true;
-          }
-          if (icon == "02n") {
-            this.showFewCloudsNight = true;
-          }
-          if (icon == "03d" || icon == "03n") {
-            this.showScatteredClouds = true;
-          }
-          if (icon == "04d" || icon == "04n") {
-            this.showBrokenClouds = true;
-          }
-          if (icon == "09d" || icon == "09n") {
-            this.showShowerRain = true;
-          }
-          if (icon == "10d") {
-            this.showRainDay = true;
-          }
-          if (icon == "10n") {
-            this.showRainNight = true;
-          }
-          if (icon == "11d" || icon == "11n") {
-            this.showThunderstorm = true;
-          }
-          if (icon == "13d" || icon == "13n") {
-            this.showSnow = true;
-          }
-          if (icon == "50d" || icon == "50n") {
-            this.showSnow = true;
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+            if (icon == "01d") {
+              this.showClearDay = true;
+            }
+            if (icon == "01n") {
+              this.showClearNight = true;
+            }
+            if (icon == "02d") {
+              this.showFewCloudsDay = true;
+            }
+            if (icon == "02n") {
+              this.showFewCloudsNight = true;
+            }
+            if (icon == "03d" || icon == "03n") {
+              this.showScatteredClouds = true;
+            }
+            if (icon == "04d" || icon == "04n") {
+              this.showBrokenClouds = true;
+            }
+            if (icon == "09d" || icon == "09n") {
+              this.showShowerRain = true;
+            }
+            if (icon == "10d") {
+              this.showRainDay = true;
+            }
+            if (icon == "10n") {
+              this.showRainNight = true;
+            }
+            if (icon == "11d" || icon == "11n") {
+              this.showThunderstorm = true;
+            }
+            if (icon == "13d" || icon == "13n") {
+              this.showSnow = true;
+            }
+            if (icon == "50d" || icon == "50n") {
+              this.showSnow = true;
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
     },
   },
   mounted() {
