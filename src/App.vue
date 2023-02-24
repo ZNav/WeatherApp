@@ -1,17 +1,17 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <body background-size=cover>
+    <WeatherInformation />
+  </body>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import WeatherInformation from "./components/WeatherInformation.vue";
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
+    WeatherInformation,
+  },
+};
 </script>
 
 <style>
@@ -23,4 +23,11 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+
+html, body {
+    margin: 0;
+    height: 100%;
+    background-color: rgb(129, 129, 219);
+}
+
 </style>
