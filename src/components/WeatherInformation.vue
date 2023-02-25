@@ -126,7 +126,8 @@ export default {
       this.showSnow = false;
       this.showThunderstorm = false;
       this.showShowerRain = false;
-      (this.type = "F"),
+      this.type = "F";
+      this.typeWord = "Celsius";
         axios
           .get(
             "https://api.openweathermap.org/data/2.5/weather?lat=" +
